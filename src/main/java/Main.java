@@ -22,33 +22,46 @@ public class Main {
         //#################################
         Session session = factory.openSession();
         getProductsWithOverFiftyCalciumAndIron(session);
+        getAverageCaloriesOfProductsWithBacon(session);
+        getMaxCholesteroleByCategory(session);
     }
     public static void getProductsWithOverFiftyCalciumAndIron(Session session){
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            String hql = "select ((select count(P) from ProductsModel P where P.calcium + P.iron > 50)/(select count(P) from ProductsModel P) from ProductsModel";
+            String hql = "select (select count(P) from ProductsModel P where P.iron + P.calcium > 50)/(select count (P) from ProductsModel P)";
             Query result = session.createQuery(hql);
             System.out.println(result.uniqueResult());
             tx.commit();
         } catch (HibernateException e){
             if (tx!=null) tx.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
     }
-    public static void getAverageCaloriesOfProductsWithBacon(EntityManager entityManager){
+    public static void getAverageCaloriesOfProductsWithBacon(Session session){
+        Transaction tx = null;
         try {
-
-        } catch (Exception e){
+            tx = session.beginTransaction();
+            String hql = "select avg(P.calories) from ProductsModel P where P.itemName like '%bacon%'";
+            Query result = session.createQuery(hql);
+            System.out.println(result.uniqueResult());
+            tx.commit();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
             e.printStackTrace();
         }
     }
-    public static void getMaxCholesteroleByCategory(EntityManager entityManager){
+    public static void getMaxCholesteroleByCategory(Session session){
+        Transaction tx = null;
         try {
-
-        } catch (Exception e){
+            tx = session.beginTransaction();
+            String hql = "select max(P.cholesterole) from ProductsModel P group by P.category";
+            Query result = session.createQuery(hql);
+            List<Object> resultList = result.getResultList();
+            resultList.forEach(value -> System.out.println(value));
+            tx.commit();
+        } catch (HibernateException e){
+            if (tx!=null) tx.rollback();
             e.printStackTrace();
         }
     }
