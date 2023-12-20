@@ -27,7 +27,7 @@ public class Main {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            String hql = "select count(P) from ProductsModel P";
+            String hql = "select ((select count(P) from ProductsModel P where P.calcium + P.iron > 50)/(select count(P) from ProductsModel P) from ProductsModel";
             Query result = session.createQuery(hql);
             System.out.println(result.uniqueResult());
             tx.commit();
