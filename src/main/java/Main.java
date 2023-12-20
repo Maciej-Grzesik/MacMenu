@@ -19,7 +19,7 @@ public class Main {
             System.err.println("Failed to create sessionFactory");
             throw new ExceptionInInitializerError(ex);
         }
-        //#################################
+
         Session session = factory.openSession();
         getProductsWithOverFiftyCalciumAndIron(session);
         getAverageCaloriesOfProductsWithBacon(session);
@@ -29,7 +29,7 @@ public class Main {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            String hql = "select (select count(P) from ProductsModel P where P.iron + P.calcium > 50)/(select count (P) from ProductsModel P)";
+            String hql = "select ((select count(P) from ProductsModel P where P.calcium + P.iron > 50) * 100.0 / (select count(P) from ProductsModel P), 2) from ProductsModel";
             Query result = session.createQuery(hql);
             System.out.println(result.uniqueResult());
             tx.commit();
