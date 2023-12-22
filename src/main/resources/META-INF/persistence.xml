@@ -7,6 +7,7 @@
 
         <class>model.CategoriesModel</class>
         <class>model.ProductsModel</class>
+        <class>model.LatteViewModel</class>
         <properties>
             <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/mac_menu"/>
             <property name="toplink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

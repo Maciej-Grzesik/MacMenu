@@ -9,6 +9,8 @@
     <property name="connection.username">root</property>
     <mapping class="model.CategoriesModel"/>
     <mapping class="model.ProductsModel"/>
+    <mapping class="model.LatteViewModel"/>
+
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

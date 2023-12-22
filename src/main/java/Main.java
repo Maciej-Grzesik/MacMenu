@@ -1,3 +1,4 @@
+import model.LatteViewModel;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,6 +25,9 @@ public class Main {
         getCoffesWithoutFiber(session);
         getCalloriesOfMcMuffins(session);
         getUniqueCarbValues(session);
+        getLatteView(session);
+        factory.close();
+
     }
     public static Object executeQuery(Session session, String hqlQuery, boolean isUniqueResult) {
         Transaction tx = null;
@@ -77,5 +81,14 @@ public class Main {
         String hql = "select count(distinct(P.carbs)) from ProductsModel P";
         System.out.println("Liczba unikalnych wartości węglowodanów:");
         System.out.println(executeQuery(session, hql, true));
+    }
+    public static void getLatteView(Session session){
+        String hql = "from LatteViewModel";
+        System.out.println("Widok Latte:");
+        List<LatteViewModel> resultList = (List<LatteViewModel>) executeQuery(session, hql, false);
+        for (LatteViewModel result: resultList){
+            System.out.println(result.getItemName());
+        }
+
     }
 }
